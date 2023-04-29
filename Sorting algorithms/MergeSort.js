@@ -35,11 +35,6 @@ function mergeSort(arr, first, last) {
     merge(arr, first, mid, last);
 }
 
-let a = [44, 99, 18, 4, 2, 10, 20];
-
-mergeSort(a, 0, 6);
-console.log(a);
-
 
 
 
