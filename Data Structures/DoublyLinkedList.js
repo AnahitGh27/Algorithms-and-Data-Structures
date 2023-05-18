@@ -207,23 +207,3 @@ class DoublyLikedList {
         }
     }
 }
-
-const d = new DoublyLikedList();
-
-d.append(10);
-d.append(20);
-d.append(30);
-d.insert(3, 100);
-// d.prepend(10);
-// d.prepend(20);
-// d.prepend(30);
-// d.prepend(40);
-// console.log(d.removeFromFront());
-//debugger;
-//console.log(d.removeValue(100));
-//d.print();
-//d.printReverse();
-console.log(d.find(100));
-console.log(`size: ${d.getSize()}`);
-
-
