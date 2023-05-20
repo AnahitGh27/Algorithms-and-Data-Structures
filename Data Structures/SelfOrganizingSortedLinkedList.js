@@ -95,35 +95,45 @@ class SelfOrganizingSortedLinkedList {
             prev.next = item.next;
         }
         this.size--;
+        this._sortedDelete(item.value);
         return item.value;
     }
 
     removeValue(value) {
-        if (this.isEmpty()) { return null; }
-        if (this.head.value === value) {
-            this.head = this.head.next;
-            this.head.prev = null;
-            this.size--;
-            return value;
-        } else if (this.tail.value === value) {
-            this.tail = this.tail.prev;
-            this.tail.next = null;
-            this.size--;
-            return value;
-        } else {
-            let prev = this.head;
-            while (prev.next && prev.next.value !== value) {
-                prev = prev.next;
-            }
-            if (prev.next) {
-                const item = prev.next;
-                prev.next = item.next;
-                prev.next.prev = prev;
+        if (!this.head) { return null; }
+        let curr = this.head;
+        while (curr.next && curr.value !== value) {
+            curr = curr.next;
+        }
+
+        if (curr.value === value) {
+            if (this.size === 1) {
+                this.head = null;
+                this.tail = null;
                 this.size--;
+                this._sortedDelete(value);
+                return value;
+            } else if (value === this.head.value) {
+                this.head = this.head.next;
+                this.head.prev = null;
+                this.size--;
+                this._sortedDelete(value);
+                return value;
+            } else if (value === this.tail.value) {
+                this.tail = this.tail.prev;
+                this.tail.next = null;
+                this.size--;
+                this._sortedDelete(value);
+                return value;
+            } else {
+                curr.prev.next = curr.next;
+                curr.next.prev = curr.prev;
+                this.size--;
+                this._sortedDelete(value);
                 return value;
             }
-            return null;
         }
+        return null;
     }
 
     find(value) {
@@ -151,6 +161,7 @@ class SelfOrganizingSortedLinkedList {
             this.head.prev = null;
         }
         this.size--;
+        this._sortedDelete(value);
         return value;
     }
 
@@ -165,6 +176,7 @@ class SelfOrganizingSortedLinkedList {
             this.tail.next = null;
         }
         this.size--;
+        this._sortedDelete(value);
         return value;
     }
 
@@ -193,6 +205,31 @@ class SelfOrganizingSortedLinkedList {
                 this.minHead = node;
             } 
         }
+    }
+
+    _sortedDelete(value) {
+        if (!this.minHead) { return; }
+        let curr = this.minHead;
+        while (curr.nextMax && curr.value !== value) {
+            curr = curr.nextMax;
+        }
+
+        if (curr.value === value) {
+            if (!this.minHead.prevMin && !this.minHead.nextMax) {
+                this.minHead = null;
+                this.maxTail = null;
+            } else if (value === this.minHead.value) {
+                this.minHead = this.minHead.nextMax;
+                this.minHead.prevMin = null;
+            } else if (value === this.maxTail.value) {
+                this.maxTail = this.maxTail.prevMin;
+                this.maxTail.nextMax = null;
+            } else {
+                curr.prevMin.nextMax = curr.nextMax;
+                curr.nextMax.prevMin = curr.prevMin;
+            }
+        }
+        return;
     }
 
     print() {
