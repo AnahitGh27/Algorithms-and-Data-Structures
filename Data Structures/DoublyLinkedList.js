@@ -114,31 +114,36 @@ class DoublyLikedList {
     }
 
     removeValue(value) {
-        if (this.isEmpty()) { return null; }
-        if (this.#head.getValue() === value) {
-            this.#head = this.#head.getNext();
-            this.#head.setPrev(null);
-            this.#size--;
-            return value;
-        } else if (this.#tail.getValue() === value) {
-            this.#tail = this.#tail.getPrev();
-            this.#tail.setNext(null);
-            this.#size--;
-            return value;
-        } else {
-            let prev = this.#head;
-            while (prev.getNext() && prev.getNext().getValue() !== value) {
-                prev = prev.getNext();
-            }
-            if (prev.getNext()) {
-                const item = prev.getNext();
-                prev.setNext(item.getNext());
-                prev.getNext().setPrev(prev);
+        if (!this.#head) { return null; }
+        let curr = this.#head;
+        while (curr.getNext() && curr.getValue() !== value) {
+            curr = curr.getNext();
+        }
+
+        if (curr.getValue() === value) {
+            if (this.#size === 1) {
+                this.#head = null;
+                this.#tail = null;
+                this.#size--;
+                return value;
+            } else if (value === this.#head.getValue()) {
+                this.#head = this.#head.getNext();
+                this.#head.setPrev(null);
+                this.#size--;
+                return value;
+            } else if (value === this.#tail.getValue()) {
+                this.#tail = this.#tail.getPrev();
+                this.#tail.setNext(null);
+                this.#size--;
+                return value;
+            } else {
+                curr.getPrev().setNext(curr.getNext());
+                curr.getNext().setPrev(curr.getPret());
                 this.#size--;
                 return value;
             }
-            return null;
         }
+        return null;
     }
 
     removeFromFront() {
@@ -174,9 +179,7 @@ class DoublyLikedList {
         let i = 0;
         let curr = this.#head;
         while (curr) {
-            if (curr.getValue() === value) {
-                return i;
-            }
+            if (curr.getValue() === value) { return i; }
             i++;
             curr = curr.getNext();
         }
