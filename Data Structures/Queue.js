@@ -8,32 +8,28 @@ class Queue {
         this.#tail = 0;
     }
 
-    push(elem) {
+    enqueue(elem) {
         this.#items[this.#tail++] = elem;
     }
 
-    pop() {
-        if (this.empty()) { return undefined; }
+    dequeue() {
+        if (this.isEmpty()) { return undefined; }
         const item = this.#items[this.#head];
         delete this.#items[this.#head];
         this.#head++;
         return item;
     }
 
-    empty() {
-        return this.#tail - this.#head === 0;
-    }
+    isEmpty() { return this.#tail - this.#head === 0; }
 
-    size() {
-        return this.#tail - this.#head;
-    }
+    size() { return this.#tail - this.#head; }
 
-    front() {
-        if (this.empty()) { return undefined; }
+    getFront() {
+        if (this.isEmpty()) { return undefined; }
         return this.#items[this.#head];
     }
 
-    back() {
+    getRear() {
         if (this.empty()) { return undefined; }
         return this.#items[this.#tail - 1];
     }
