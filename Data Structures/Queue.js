@@ -30,7 +30,7 @@ class Queue {
     }
 
     getRear() {
-        if (this.empty()) { return undefined; }
+        if (this.isEmpty()) { return undefined; }
         return this.#items[this.#tail - 1];
     }
 }
